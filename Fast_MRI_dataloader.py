@@ -37,50 +37,41 @@ class Fast_MRI(Dataset):
         
         return kspace, M, gt
 
+# # %% test if the dataloaders work
+# if __name__ == "__main__":
+#     # define parameters
+#     #data_loc = 'D://5LSL0-Datasets//Fast_MRI_Knee' #change the datalocation to something that works for you
+#     #Amin data_location
+#     data_loc = 'C://Gebruikers/amin2/Documenten/School/5LSL0 - MLSignal/5LSL0/data'
+#     batch_size = 2
     
-# %% dataloader for the Fast MRI dataset
-def create_dataloaders(data_loc, batch_size):
-    dataset_train = Fast_MRI("train", data_loc)
-    dataset_test  = Fast_MRI("test" , data_loc)
+#     train_loader, test_loader = create_dataloaders(data_loc, batch_size)
     
-    Fast_MRI_train_loader =  DataLoader(dataset_train, batch_size=batch_size, shuffle=True,  drop_last=False)
-    Fast_MRI_test_loader  =  DataLoader(dataset_test , batch_size=batch_size, shuffle=True, drop_last=False)
+#     # go over the dataset
+#     for i,(kspace, M, gt) in enumerate(tqdm(test_loader)):
+#         continue
     
-    return Fast_MRI_train_loader, Fast_MRI_test_loader
-
-# %% test if the dataloaders work
-if __name__ == "__main__":
-    # define parameters
-    data_loc = 'D://5LSL0-Datasets//Fast_MRI_Knee' #change the datalocation to something that works for you
-    batch_size = 2
+#     # %% plot the last example
+#     kspace_plot_friendly = torch.log(torch.abs(kspace[0,:,:])+1e-20)
     
-    train_loader, test_loader = create_dataloaders(data_loc, batch_size)
+#     plt.figure(figsize = (10,10))
+#     plt.subplot(1,3,1)
+#     plt.imshow(kspace_plot_friendly,vmin=-2.3,interpolation='nearest')
+#     plt.xticks([])
+#     plt.yticks([])
+#     plt.title('partial k-space')
     
-    # go over the dataset
-    for i,(kspace, M, gt) in enumerate(tqdm(test_loader)):
-        continue
+#     plt.subplot(1,3,2)
+#     plt.imshow(M[0,:,:],interpolation='nearest')
+#     plt.xticks([])
+#     plt.yticks([])
+#     plt.title('measurement mask')
     
-    # %% plot the last example
-    kspace_plot_friendly = torch.log(torch.abs(kspace[0,:,:])+1e-20)
+#     plt.subplot(1,3,3)
+#     plt.imshow(gt[0,:,:],cmap='gray')
+#     plt.xticks([])
+#     plt.yticks([])
+#     plt.title('ground truth')
     
-    plt.figure(figsize = (10,10))
-    plt.subplot(1,3,1)
-    plt.imshow(kspace_plot_friendly,vmin=-2.3,interpolation='nearest')
-    plt.xticks([])
-    plt.yticks([])
-    plt.title('partial k-space')
-    
-    plt.subplot(1,3,2)
-    plt.imshow(M[0,:,:],interpolation='nearest')
-    plt.xticks([])
-    plt.yticks([])
-    plt.title('measurement mask')
-    
-    plt.subplot(1,3,3)
-    plt.imshow(gt[0,:,:],cmap='gray')
-    plt.xticks([])
-    plt.yticks([])
-    plt.title('ground truth')
-    
-    plt.savefig("example.png",dpi=300,bbox_inches='tight')
-    plt.close()
+#     plt.savefig("example.png",dpi=300,bbox_inches='tight')
+#     plt.close()
